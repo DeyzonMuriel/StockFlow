@@ -83,7 +83,7 @@ class Produto(models.Model):
                 name="produto_sku_case_insensitive_unique",
             ),
             models.CheckConstraint(
-                check=Q(preco__gte=0),
+                condition=Q(preco__gte=0),
                 name="produto_preco_nao_negativo",
             ),
         ]
