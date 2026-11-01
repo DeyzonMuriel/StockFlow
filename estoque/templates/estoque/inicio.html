@@ -5,21 +5,37 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>StockFlow | Início</title>
+
     <link rel="stylesheet" href="{% static 'estoque/style.css' %}">
 </head>
+
 <body>
+
     <header>
         <h1>StockFlow</h1>
         <p>Sistema de gerenciamento de estoque</p>
     </header>
 
+    <nav class="menu">
+        <a href="/">Início</a>
+        <a href="/produtos/">Produtos</a>
+        <a href="/categorias/">Categorias</a>
+        <a href="/fornecedores/">Fornecedores</a>
+        <a href="/admin/">Administração</a>
+    </nav>
+
     <main>
         <h2>Bem-vindo ao StockFlow!</h2>
-        <p>Organize seus produtos, categorias e fornecedores em um só lugar.</p>
 
-        <nav>
-            <a href="/admin/">Painel administrativo</a>
-        </nav>
+        <p>
+            Organize seus produtos, categorias e fornecedores
+            em um só lugar.
+        </p>
+
+        <p>
+            Utilize o menu acima para navegar pelo sistema.
+        </p>
     </main>
+
 </body>
 </html>

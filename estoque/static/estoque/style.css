@@ -68,3 +68,21 @@ nav a:hover {
         font-size: 23px;
     }
 }
+
+.menu {
+    background-color: #1e293b;
+    padding: 15px 8%;
+    display: flex;
+    gap: 25px;
+    flex-wrap: wrap;
+}
+
+.menu a {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.menu a:hover {
+    color: #60a5fa;
+}
