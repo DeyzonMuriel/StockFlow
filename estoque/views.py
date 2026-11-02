@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect
+from django.db import IntegrityError, transaction
 from .models import Produto, Categoria, Fornecedor
 
 def inicio(request):
@@ -33,28 +34,38 @@ def listar_fornecedores(request):
     )
 
 def cadastrar_produto(request):
+    erro = None
+
     if request.method == "POST":
-        nome = request.POST.get("nome")
-        sku = request.POST.get("sku")
-        descricao = request.POST.get("descricao")
+        nome = request.POST.get("nome", "").strip()
+        sku = request.POST.get("sku", "").strip()
+        descricao = request.POST.get("descricao", "")
         preco = request.POST.get("preco")
         quantidade_estoque = request.POST.get("quantidade_estoque")
         estoque_minimo = request.POST.get("estoque_minimo")
         categoria_id = request.POST.get("categoria")
         fornecedor_id = request.POST.get("fornecedor")
 
-        Produto.objects.create(
-            nome=nome,
-            sku=sku,
-            descricao=descricao,
-            preco=preco,
-            quantidade_estoque=quantidade_estoque,
-            estoque_minimo=estoque_minimo,
-            categoria_id=categoria_id,
-            fornecedor_id=fornecedor_id,
-        )
+        try:
+            with transaction.atomic():
+                Produto.objects.create(
+                    nome=nome,
+                    sku=sku,
+                    descricao=descricao,
+                    preco=preco,
+                    quantidade_estoque=quantidade_estoque,
+                    estoque_minimo=estoque_minimo,
+                    categoria_id=categoria_id,
+                    fornecedor_id=fornecedor_id,
+                )
 
-        return redirect("listar_produtos")
+            return redirect("listar_produtos")
+
+        except IntegrityError:
+            erro = "Não foi possível cadastrar. Verifique se o SKU já existe."
+
+        except (ValueError, TypeError):
+            erro = "Confira os valores informados e tente novamente."
 
     categorias = Categoria.objects.all()
     fornecedores = Fornecedor.objects.all()
@@ -65,5 +76,6 @@ def cadastrar_produto(request):
         {
             "categorias": categorias,
             "fornecedores": fornecedores,
+            "erro": erro,
         }
     )
