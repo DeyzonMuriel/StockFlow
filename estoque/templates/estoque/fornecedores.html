@@ -1,0 +1,62 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>StockFlow | Fornecedores</title>
+
+    <link rel="stylesheet" href="{% static 'estoque/style.css' %}">
+</head>
+
+<body>
+
+    <header>
+        <h1>StockFlow</h1>
+        <p>Gerenciamento de fornecedores</p>
+    </header>
+
+    <nav class="menu">
+        <a href="/">Início</a>
+        <a href="/produtos/">Produtos</a>
+        <a href="/categorias/">Categorias</a>
+        <a href="/fornecedores/">Fornecedores</a>
+        <a href="/admin/">Administração</a>
+    </nav>
+
+    <main>
+        <h2>Lista de Fornecedores</h2>
+
+        {% if fornecedores %}
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nome</th>
+                        <th>CNPJ</th>
+                        <th>E-mail</th>
+                        <th>Telefone</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {% for fornecedor in fornecedores %}
+                        <tr>
+                            <td>{{ fornecedor.id }}</td>
+                            <td>{{ fornecedor.nome }}</td>
+                            <td>{{ fornecedor.cnpj|default:"Não informado" }}</td>
+                            <td>{{ fornecedor.email|default:"Não informado" }}</td>
+                            <td>{{ fornecedor.telefone|default:"Não informado" }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <p>Nenhum fornecedor cadastrado.</p>
+        {% endif %}
+    </main>
+
+</body>
+</html>
