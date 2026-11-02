@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from .models import Produto
+from .models import Produto, Categoria
 
 
 def inicio(request):
@@ -13,4 +13,16 @@ def listar_produtos(request):
         request,
         "estoque/produtos.html",
         {"produtos": produtos}
+    )
+
+
+
+
+def listar_categorias(request):
+    categorias = Categoria.objects.all()
+
+    return render(
+        request,
+        "estoque/categorias.html",
+        {"categorias": categorias}
     )

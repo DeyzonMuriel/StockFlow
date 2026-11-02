@@ -1,0 +1,60 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>StockFlow | Categorias</title>
+
+    <link rel="stylesheet" href="{% static 'estoque/style.css' %}">
+</head>
+
+<body>
+
+    <header>
+        <h1>StockFlow</h1>
+        <p>Gerenciamento de categorias</p>
+    </header>
+
+    <nav class="menu">
+        <a href="/">Início</a>
+        <a href="/produtos/">Produtos</a>
+        <a href="/categorias/">Categorias</a>
+        <a href="/fornecedores/">Fornecedores</a>
+        <a href="/admin/">Administração</a>
+    </nav>
+
+    <main>
+        <h2>Lista de Categorias</h2>
+
+        {% if categorias %}
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nome</th>
+                        <th>Descrição</th>
+                        <th>Data de criação</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {% for categoria in categorias %}
+                        <tr>
+                            <td>{{ categoria.id }}</td>
+                            <td>{{ categoria.nome }}</td>
+                            <td>{{ categoria.descricao|default:"Sem descrição" }}</td>
+                            <td>{{ categoria.criado_em|date:"d/m/Y H:i" }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <p>Nenhuma categoria cadastrada.</p>
+        {% endif %}
+    </main>
+
+</body>
+</html>
