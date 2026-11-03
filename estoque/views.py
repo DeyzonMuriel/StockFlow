@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.db import IntegrityError, transaction
 from .models import Produto, Categoria, Fornecedor
 from .forms_produtos import ProdutoForm
+from django.db.models.deletion import ProtectedError
 
 def inicio(request):
     return render(request, "estoque/inicio.html")
@@ -142,6 +143,50 @@ def cadastrar_fornecedor(request):
         {"erro": erro},
     )
 
+def editar_categoria(request, categoria_id):
+    # Busca a categoria pelo ID
+    categoria = get_object_or_404(Categoria, id=categoria_id)
+
+    erro = None
+
+    # Verifica se o formulário foi enviado
+    if request.method == "POST":
+
+        nome = request.POST.get("nome", "").strip()
+        descricao = request.POST.get("descricao", "").strip()
+
+        # Verifica se o nome foi preenchido
+        if not nome:
+            erro = "O nome da categoria é obrigatório."
+
+        # Verifica se já existe outra categoria com esse nome
+        elif Categoria.objects.filter(
+            nome__iexact=nome
+        ).exclude(id=categoria.id).exists():
+
+            erro = "Já existe uma categoria com esse nome."
+
+        else:
+            try:
+                # Atualiza os dados da categoria
+                with transaction.atomic():
+                    categoria.nome = nome
+                    categoria.descricao = descricao
+                    categoria.save()
+
+                return redirect("listar_categorias")
+
+            except IntegrityError:
+                erro = "Não foi possível atualizar a categoria."
+
+    return render(
+        request,
+        "estoque/editar_categoria.html",
+        {
+            "categoria": categoria,
+            "erro": erro,
+        }
+    )
 def editar_produto(request, produto_id):
 
     produto = get_object_or_404(Produto, pk=produto_id)
@@ -176,6 +221,7 @@ def editar_produto(request, produto_id):
             "produto": produto,
         }
     )
+<<<<<<< HEAD
 
 def excluir_produto(request, produto_id):
 
@@ -185,3 +231,30 @@ def excluir_produto(request, produto_id):
         produto.delete()
 
     return redirect("listar_produtos")
+=======
+def excluir_categoria(request, categoria_id):
+    categoria = get_object_or_404(Categoria, pk=categoria_id)
+
+    if request.method != "POST":
+        return redirect("listar_categorias")
+
+    try:
+        categoria.delete()
+
+    except ProtectedError:
+        categorias = Categoria.objects.all()
+
+        return render(
+            request,
+            "estoque/categorias.html",
+            {
+                "categorias": categorias,
+                "erro_exclusao": (
+                    "Não é possível excluir esta categoria "
+                    "porque existem produtos vinculados a ela."
+                ),
+            }
+        )
+
+    return redirect("listar_categorias")
+>>>>>>> ef8b83f74463ef7aba78b1302e4dd29e74de0a86

@@ -31,6 +31,9 @@
         <a href="{% url 'cadastrar_categoria' %}" class="botao">
             + Cadastrar categoria
         </a>
+        {% if erro_exclusao %}
+            <p class="mensagem-erro">{{ erro_exclusao }}</p>
+        {% endif %}
 
         {% if categorias %}
             <table>
@@ -39,7 +42,8 @@
                         <th>ID</th>
                         <th>Nome</th>
                         <th>Descrição</th>
-                        <th>Data de criação</th>
+                        <th>Data de Criação</th>
+                        <th>Ações</th>
                     </tr>
                 </thead>
 
@@ -50,6 +54,31 @@
                             <td>{{ categoria.nome }}</td>
                             <td>{{ categoria.descricao|default:"Sem descrição" }}</td>
                             <td>{{ categoria.criado_em|date:"d/m/Y H:i" }}</td>
+                            <td>
+                                <a
+                                    href="{% url 'editar_categoria' categoria.id %}"
+                                    class="botao"
+                                >
+                                    Editar
+                                </a>
+
+                                <form
+                                    method="post"
+                                    action="{% url 'excluir_categoria' categoria.id %}"
+                                    style="display: inline-flex; flex-direction: row;"
+                                >
+                                    {% csrf_token %}
+
+                                    <button
+                                        type="submit"
+                                        class="botao"
+                                        style="margin: 0;"
+                                        onclick="return confirm('Tem certeza que deseja excluir esta categoria?')"
+                                    >
+                                        Excluir
+                                    </button>
+                                </form>
+                            </td>
                         </tr>
                     {% endfor %}
                 </tbody>
