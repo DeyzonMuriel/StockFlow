@@ -142,6 +142,48 @@ def cadastrar_fornecedor(request):
         {"erro": erro},
     )
 
+def editar_categoria(request, categoria_id):
+    # Busca a categoria pelo ID
+    categoria = get_object_or_404(Categoria, id=categoria_id)
+
+    erro = None
+
+    # Verifica se o formulário foi enviado
+    if request.method == "POST":
+
+        nome = request.POST.get("nome", "").strip()
+        descricao = request.POST.get("descricao", "").strip()
+
+        # Verifica se o nome foi preenchido
+        if not nome:
+            erro = "O nome da categoria é obrigatório."
+
+        # Verifica se já existe outra categoria com esse nome
+        elif Categoria.objects.filter(
+            nome__iexact=nome
+        ).exclude(id=categoria.id).exists():
+
+            erro = "Já existe uma categoria com esse nome."
+
+        else:
+            try:
+                # Atualiza os dados da categoria
+                with transaction.atomic():
+                    categoria.nome = nome
+                    categoria.descricao = descricao
+                    categoria.save()
+
+                return redirect("listar_categorias")
+
+            except IntegrityError:
+                erro = "Não foi possível atualizar a categoria."
+
+    return render(
+        request,
+        "estoque/editar_categoria.html",
+        {
+            "categoria": categoria,
+            "erro": erro,
 def editar_produto(request, produto_id):
 
     produto = get_object_or_404(Produto, pk=produto_id)
