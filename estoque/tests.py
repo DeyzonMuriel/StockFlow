@@ -162,3 +162,71 @@ class ExcluirCategoriaTests(TestCase):
         self.assertTrue(
             Categoria.objects.filter(id=self.categoria.id).exists()
         )
+
+class ExcluirFornecedorTests(TestCase):
+
+    def setUp(self):
+        self.fornecedor = Fornecedor.objects.create(
+            nome="Fornecedor Teste",
+            email="teste@email.com",
+            telefone="123456789",
+            endereco="Rua de Teste"
+        )
+
+    def test_excluir_fornecedor_sem_produtos(self):
+        response = self.client.post(
+            reverse(
+                "excluir_fornecedor",
+                args=[self.fornecedor.id]
+            )
+        )
+
+        self.assertFalse(
+            Fornecedor.objects.filter(id=self.fornecedor.id).exists()
+        )
+        self.assertRedirects(response, reverse("listar_fornecedores"))
+
+    def test_impedir_exclusao_de_fornecedor_com_produto(self):
+        categoria = Categoria.objects.create(
+            nome="Categoria Teste",
+            descricao="Descrição de teste"
+        )
+
+        Produto.objects.create(
+            nome="Produto Teste",
+            sku="SKU-TESTE-001",
+            descricao="Produto para teste",
+            preco=Decimal("10.00"),
+            quantidade_estoque=5,
+            estoque_minimo=1,
+            categoria=categoria,
+            fornecedor=self.fornecedor
+        )
+
+        response = self.client.post(
+            reverse(
+                "excluir_fornecedor",
+                args=[self.fornecedor.id]
+            )
+        )
+
+        self.assertTrue(
+            Fornecedor.objects.filter(id=self.fornecedor.id).exists()
+        )
+        self.assertContains(
+            response,
+            "Não é possível excluir este fornecedor"
+        )
+
+    def test_get_nao_exclui_fornecedor(self):
+        response = self.client.get(
+            reverse(
+                "excluir_fornecedor",
+                args=[self.fornecedor.id]
+            )
+        )
+
+        self.assertTrue(
+            Fornecedor.objects.filter(id=self.fornecedor.id).exists()
+        )
+        self.assertRedirects(response, reverse("listar_fornecedores"))

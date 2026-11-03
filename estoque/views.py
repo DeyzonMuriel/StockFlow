@@ -4,6 +4,7 @@ from .models import Produto, Categoria, Fornecedor
 from .forms_produtos import ProdutoForm
 from django.db.models.deletion import ProtectedError
 
+
 def inicio(request):
     return render(request, "estoque/inicio.html")
 
@@ -125,6 +126,44 @@ def cadastrar_fornecedor(request):
         "estoque/cadastrar_fornecedor.html",
         {"erro": erro},
     )
+def editar_fornecedor(request, fornecedor_id):
+    fornecedor = get_object_or_404(Fornecedor, pk=fornecedor_id)
+
+    erro = None
+
+    if request.method == "POST":
+        nome = request.POST.get("nome", "").strip()
+        cnpj = request.POST.get("cnpj", "").strip() or None
+        email = request.POST.get("email", "").strip()
+        telefone = request.POST.get("telefone", "").strip()
+        endereco = request.POST.get("endereco", "").strip()
+
+        if not nome:
+            erro = "O nome do fornecedor é obrigatório."
+
+        elif Fornecedor.objects.filter(
+            cnpj=cnpj
+        ).exclude(id=fornecedor.id).exists() and cnpj:
+            erro = "Este CNPJ já está cadastrado."
+
+        else:
+            fornecedor.nome = nome
+            fornecedor.cnpj = cnpj
+            fornecedor.email = email
+            fornecedor.telefone = telefone
+            fornecedor.endereco = endereco
+            fornecedor.save()
+
+            return redirect("listar_fornecedores")
+
+    return render(
+        request,
+        "estoque/editar_fornecedor.html",
+        {
+            "fornecedor": fornecedor,
+            "erro": erro,
+        }
+    )
 
 def editar_categoria(request, categoria_id):
     # Busca a categoria pelo ID
@@ -238,3 +277,29 @@ def excluir_categoria(request, categoria_id):
         )
 
     return redirect("listar_categorias")
+
+def excluir_fornecedor(request, fornecedor_id):
+    fornecedor = get_object_or_404(Fornecedor, pk=fornecedor_id)
+
+    if request.method != "POST":
+        return redirect("listar_fornecedores")
+
+    try:
+        fornecedor.delete()
+
+    except ProtectedError:
+        fornecedores = Fornecedor.objects.all()
+
+        return render(
+            request,
+            "estoque/fornecedores.html",
+            {
+                "fornecedores": fornecedores,
+                "erro_exclusao": (
+                    "Não é possível excluir este fornecedor "
+                    "porque existem produtos vinculados a ele."
+                ),
+            }
+        )
+
+    return redirect("listar_fornecedores")

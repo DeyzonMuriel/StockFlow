@@ -49,6 +49,14 @@ urlpatterns = [
 
     path("fornecedores/", views.listar_fornecedores, name="listar_fornecedores"),
 
+    path(
+    "fornecedores/<int:fornecedor_id>/editar/",
+    views.editar_fornecedor,
+    name="editar_fornecedor",
+    ),
+
+    path("fornecedores/<int:fornecedor_id>/excluir/", views.excluir_fornecedor, name="excluir_fornecedor",)
+
 
 
 ]

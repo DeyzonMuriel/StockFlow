@@ -28,6 +28,11 @@
 
     <main>
         <h2>Lista de Fornecedores</h2>
+        {% if erro_exclusao %}
+            <p class="mensagem-erro">
+                {{ erro_exclusao }}
+            </p>
+        {% endif %}
         <a href="{% url 'cadastrar_fornecedor' %}" class="botao">
             + Cadastrar fornecedor
         </a>
@@ -41,6 +46,7 @@
                         <th>CNPJ</th>
                         <th>E-mail</th>
                         <th>Telefone</th>
+                        <th>Ações</th>
                     </tr>
                 </thead>
 
@@ -52,6 +58,20 @@
                             <td>{{ fornecedor.cnpj|default:"Não informado" }}</td>
                             <td>{{ fornecedor.email|default:"Não informado" }}</td>
                             <td>{{ fornecedor.telefone|default:"Não informado" }}</td>
+                            <td>
+                                <a href="{% url 'editar_fornecedor' fornecedor.id %}" class='botao'>
+                                    Editar
+                                </a>
+                                <form
+                                    method="POST"
+                                    action="{% url 'excluir_fornecedor' fornecedor.id %}"
+                                    style="display: inline;"
+                                    onsubmit="return confirm('Tem certeza que deseja excluir este fornecedor?')"
+                                >
+                                    {% csrf_token %}
+                                    <button type="submit">Excluir</button>
+                                </form>
+                            </td>
                         </tr>
                     {% endfor %}
                 </tbody>
