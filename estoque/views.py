@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.db import IntegrityError, transaction
 from .models import Produto, Categoria, Fornecedor
 from .forms_produtos import ProdutoForm
+from django.db.models.deletion import ProtectedError
 
 def inicio(request):
     return render(request, "estoque/inicio.html")
@@ -220,3 +221,28 @@ def editar_produto(request, produto_id):
             "produto": produto,
         }
     )
+def excluir_categoria(request, categoria_id):
+    categoria = get_object_or_404(Categoria, pk=categoria_id)
+
+    if request.method != "POST":
+        return redirect("listar_categorias")
+
+    try:
+        categoria.delete()
+
+    except ProtectedError:
+        categorias = Categoria.objects.all()
+
+        return render(
+            request,
+            "estoque/categorias.html",
+            {
+                "categorias": categorias,
+                "erro_exclusao": (
+                    "Não é possível excluir esta categoria "
+                    "porque existem produtos vinculados a ela."
+                ),
+            }
+        )
+
+    return redirect("listar_categorias")

@@ -1,6 +1,8 @@
 from django.test import TestCase
 from django.urls import reverse
-from .models import Categoria
+from .models import Categoria, Fornecedor, Produto
+from decimal import Decimal
+
 
 
 class EditarCategoriaTests(TestCase):
@@ -87,3 +89,76 @@ class EditarCategoriaTests(TestCase):
         self.categoria.refresh_from_db()
 
         self.assertEqual(self.categoria.nome, "Eletrônicos")
+
+class ExcluirCategoriaTests(TestCase):
+
+    def setUp(self):
+        self.categoria = Categoria.objects.create(
+            nome="Eletrônicos",
+            descricao="Produtos eletrônicos"
+        )
+
+    def test_excluir_categoria_sem_produtos(self):
+        resposta = self.client.post(
+            reverse(
+                "excluir_categoria",
+                args=[self.categoria.id]
+            )
+        )
+
+        self.assertRedirects(
+            resposta,
+            reverse("listar_categorias")
+        )
+
+        self.assertFalse(
+            Categoria.objects.filter(id=self.categoria.id).exists()
+        )
+
+    def test_impedir_exclusao_categoria_com_produtos(self):
+        fornecedor = Fornecedor.objects.create(
+            nome="Fornecedor Teste"
+        )
+
+        Produto.objects.create(
+            nome="Notebook",
+            sku="NOTE-001",
+            preco=Decimal("2500.00"),
+            categoria=self.categoria,
+            fornecedor=fornecedor,
+        )
+
+        resposta = self.client.post(
+            reverse(
+                "excluir_categoria",
+                args=[self.categoria.id]
+            )
+        )
+
+        self.assertEqual(resposta.status_code, 200)
+
+        self.assertContains(
+            resposta,
+            "Não é possível excluir esta categoria"
+        )
+
+        self.assertTrue(
+            Categoria.objects.filter(id=self.categoria.id).exists()
+        )
+
+    def test_get_nao_exclui_categoria(self):
+        resposta = self.client.get(
+            reverse(
+                "excluir_categoria",
+                args=[self.categoria.id]
+            )
+        )
+
+        self.assertRedirects(
+            resposta,
+            reverse("listar_categorias")
+        )
+
+        self.assertTrue(
+            Categoria.objects.filter(id=self.categoria.id).exists()
+        )

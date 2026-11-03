@@ -31,6 +31,9 @@
         <a href="{% url 'cadastrar_categoria' %}" class="botao">
             + Cadastrar categoria
         </a>
+        {% if erro_exclusao %}
+            <p class="mensagem-erro">{{ erro_exclusao }}</p>
+        {% endif %}
 
         {% if categorias %}
             <table>
@@ -39,6 +42,7 @@
                         <th>ID</th>
                         <th>Nome</th>
                         <th>Descrição</th>
+                        <th>Data de Criação</th>
                         <th>Ações</th>
                     </tr>
                 </thead>
@@ -57,6 +61,23 @@
                                 >
                                     Editar
                                 </a>
+
+                                <form
+                                    method="post"
+                                    action="{% url 'excluir_categoria' categoria.id %}"
+                                    style="display: inline-flex; flex-direction: row;"
+                                >
+                                    {% csrf_token %}
+
+                                    <button
+                                        type="submit"
+                                        class="botao"
+                                        style="margin: 0;"
+                                        onclick="return confirm('Tem certeza que deseja excluir esta categoria?')"
+                                    >
+                                        Excluir
+                                    </button>
+                                </form>
                             </td>
                         </tr>
                     {% endfor %}
