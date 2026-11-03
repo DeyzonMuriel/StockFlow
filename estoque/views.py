@@ -79,3 +79,30 @@ def cadastrar_produto(request):
             "erro": erro,
         }
     )
+
+def cadastrar_categoria(request):
+    erro = None
+
+    if request.method == "POST":
+        nome = request.POST.get("nome", "").strip()
+        descricao = request.POST.get("descricao", "").strip()
+
+        if not nome:
+            erro = "O nome da categoria é obrigatório."
+
+        elif Categoria.objects.filter(nome__iexact=nome).exists():
+            erro = "Já existe uma categoria com esse nome."
+
+        else:
+            Categoria.objects.create(
+                nome=nome,
+                descricao=descricao,
+            )
+
+            return redirect("listar_categorias")
+
+    return render(
+        request,
+        "estoque/cadastrar_categoria.html",
+        {"erro": erro},
+    )

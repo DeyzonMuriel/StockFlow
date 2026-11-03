@@ -28,6 +28,9 @@
 
     <main>
         <h2>Lista de Categorias</h2>
+        <a href="{% url 'cadastrar_categoria' %}" class="botao">
+            + Cadastrar categoria
+        </a>
 
         {% if categorias %}
             <table>

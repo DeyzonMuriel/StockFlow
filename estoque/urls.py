@@ -11,4 +11,9 @@ urlpatterns = [
         views.cadastrar_produto,
         name="cadastrar_produto",
     ),
+    path(
+    "categorias/cadastrar/",
+    views.cadastrar_categoria,
+    name="cadastrar_categoria",
+    ),
 ]
