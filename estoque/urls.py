@@ -21,4 +21,9 @@ urlpatterns = [
     views.cadastrar_fornecedor,
     name="cadastrar_fornecedor",
     ),
+    path(
+    "produtos/<int:produto_id>/editar/",
+    views.editar_produto,
+    name="editar_produto",
+    ),
 ]
