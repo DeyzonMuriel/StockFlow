@@ -35,6 +35,11 @@ urlpatterns = [
         views.excluir_categoria,
         name="excluir_categoria",
     ),
+    path(
+    "produtos/<int:produto_id>/excluir/",
+    views.excluir_produto,
+    name="excluir_produto",
+    ),
 
     path(
         "fornecedores/cadastrar/",
