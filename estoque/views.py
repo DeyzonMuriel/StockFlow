@@ -184,6 +184,8 @@ def editar_categoria(request, categoria_id):
         {
             "categoria": categoria,
             "erro": erro,
+        }
+    )
 def editar_produto(request, produto_id):
 
     produto = get_object_or_404(Produto, pk=produto_id)

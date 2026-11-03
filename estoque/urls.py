@@ -25,7 +25,8 @@ urlpatterns = [
         "categorias/<int:categoria_id>/editar/",
         views.editar_categoria,
         name="editar_categoria",
-    )
+    ),
+    path(
     "produtos/<int:produto_id>/editar/",
     views.editar_produto,
     name="editar_produto",
