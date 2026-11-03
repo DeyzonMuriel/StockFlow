@@ -176,3 +176,12 @@ def editar_produto(request, produto_id):
             "produto": produto,
         }
     )
+
+def excluir_produto(request, produto_id):
+
+    if request.method == "POST":
+        produto = get_object_or_404(Produto, pk=produto_id)
+
+        produto.delete()
+
+    return redirect("listar_produtos")

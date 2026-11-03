@@ -60,6 +60,18 @@
                             <a href="{% url 'editar_produto' produto.pk %}" class="botao">
                                 Editar
                             </a>
+                            <form method="post" action="{% url 'excluir_produto' produto.pk %}">
+
+    {% csrf_token %}
+
+    <button
+        type="submit"
+        onclick="return confirm('Tem certeza que deseja excluir este produto?')"
+    >
+        Excluir
+    </button>
+
+</form>
                         </td>
                         </tr>
                     {% endfor %}

@@ -26,4 +26,9 @@ urlpatterns = [
     views.editar_produto,
     name="editar_produto",
     ),
+    path(
+    "produtos/<int:produto_id>/excluir/",
+    views.excluir_produto,
+    name="excluir_produto",
+    ),
 ]
