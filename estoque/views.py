@@ -36,50 +36,33 @@ def listar_fornecedores(request):
     )
 
 def cadastrar_produto(request):
-    erro = None
 
     if request.method == "POST":
-        nome = request.POST.get("nome", "").strip()
-        sku = request.POST.get("sku", "").strip()
-        descricao = request.POST.get("descricao", "")
-        preco = request.POST.get("preco")
-        quantidade_estoque = request.POST.get("quantidade_estoque")
-        estoque_minimo = request.POST.get("estoque_minimo")
-        categoria_id = request.POST.get("categoria")
-        fornecedor_id = request.POST.get("fornecedor")
 
-        try:
-            with transaction.atomic():
-                Produto.objects.create(
-                    nome=nome,
-                    sku=sku,
-                    descricao=descricao,
-                    preco=preco,
-                    quantidade_estoque=quantidade_estoque,
-                    estoque_minimo=estoque_minimo,
-                    categoria_id=categoria_id,
-                    fornecedor_id=fornecedor_id,
+        form = ProdutoForm(request.POST)
+
+        if form.is_valid():
+
+            try:
+                with transaction.atomic():
+                    form.save()
+
+            except IntegrityError:
+                form.add_error(
+                    "sku",
+                    "Este SKU já está cadastrado."
                 )
 
-            return redirect("listar_produtos")
+            else:
+                return redirect("listar_produtos")
 
-        except IntegrityError:
-            erro = "Não foi possível cadastrar. Verifique se o SKU já existe."
-
-        except (ValueError, TypeError):
-            erro = "Confira os valores informados e tente novamente."
-
-    categorias = Categoria.objects.all()
-    fornecedores = Fornecedor.objects.all()
+    else:
+        form = ProdutoForm()
 
     return render(
         request,
         "estoque/cadastrar_produto.html",
-        {
-            "categorias": categorias,
-            "fornecedores": fornecedores,
-            "erro": erro,
-        }
+        {"form": form}
     )
 
 def cadastrar_categoria(request):
