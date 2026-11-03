@@ -91,6 +91,5 @@ class Produto(models.Model):
     def __str__(self):
         return self.nome
 
-    @property
     def estoque_baixo(self):
         return self.quantidade_estoque <= self.estoque_minimo
