@@ -106,3 +106,37 @@ def cadastrar_categoria(request):
         "estoque/cadastrar_categoria.html",
         {"erro": erro},
     )
+
+def cadastrar_fornecedor(request):
+    erro = None
+
+    if request.method == "POST":
+        nome = request.POST.get("nome", "").strip()
+        cnpj = request.POST.get("cnpj", "").strip() or None
+        email = request.POST.get("email", "").strip()
+        telefone = request.POST.get("telefone", "").strip()
+        endereco = request.POST.get("endereco", "").strip()
+
+        if not nome:
+            erro = "O nome do fornecedor é obrigatório."
+
+        else:
+            try:
+                Fornecedor.objects.create(
+                    nome=nome,
+                    cnpj=cnpj,
+                    email=email,
+                    telefone=telefone,
+                    endereco=endereco,
+                )
+
+                return redirect("listar_fornecedores")
+
+            except IntegrityError:
+                erro = "Este CNPJ já está cadastrado."
+
+    return render(
+        request,
+        "estoque/cadastrar_fornecedor.html",
+        {"erro": erro},
+    )

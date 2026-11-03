@@ -28,6 +28,9 @@
 
     <main>
         <h2>Lista de Fornecedores</h2>
+        <a href="{% url 'cadastrar_fornecedor' %}" class="botao">
+            + Cadastrar fornecedor
+        </a>
 
         {% if fornecedores %}
             <table>
