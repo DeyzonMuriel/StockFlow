@@ -221,7 +221,6 @@ def editar_produto(request, produto_id):
             "produto": produto,
         }
     )
-<<<<<<< HEAD
 
 def excluir_produto(request, produto_id):
 
@@ -231,7 +230,6 @@ def excluir_produto(request, produto_id):
         produto.delete()
 
     return redirect("listar_produtos")
-=======
 def excluir_categoria(request, categoria_id):
     categoria = get_object_or_404(Categoria, pk=categoria_id)
 
@@ -257,4 +255,3 @@ def excluir_categoria(request, categoria_id):
         )
 
     return redirect("listar_categorias")
->>>>>>> ef8b83f74463ef7aba78b1302e4dd29e74de0a86
