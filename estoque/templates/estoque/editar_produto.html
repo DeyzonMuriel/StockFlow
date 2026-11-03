@@ -1,0 +1,53 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>StockFlow | Editar Produto</title>
+
+    <link rel="stylesheet" href="{% static 'estoque/style.css' %}">
+</head>
+
+<body>
+
+    <header>
+        <h1>StockFlow</h1>
+        <p>Edição de produtos</p>
+    </header>
+
+    <nav class="menu">
+        <a href="/">Início</a>
+        <a href="/produtos/">Produtos</a>
+        <a href="/categorias/">Categorias</a>
+        <a href="/fornecedores/">Fornecedores</a>
+        <a href="/admin/">Administração</a>
+    </nav>
+
+    <main>
+
+        <h2>Editar Produto</h2>
+
+        <form method="post">
+
+            {% csrf_token %}
+
+            {{ form.as_p }}
+
+            <button type="submit">
+                Salvar alterações
+            </button>
+
+        </form>
+
+        <p>
+            <a href="/produtos/">Voltar para produtos</a>
+        </p>
+
+    </main>
+
+</body>
+</html>
