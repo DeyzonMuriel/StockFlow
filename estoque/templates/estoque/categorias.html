@@ -39,7 +39,7 @@
                         <th>ID</th>
                         <th>Nome</th>
                         <th>Descrição</th>
-                        <th>Data de criação</th>
+                        <th>Ações</th>
                     </tr>
                 </thead>
 
@@ -50,6 +50,14 @@
                             <td>{{ categoria.nome }}</td>
                             <td>{{ categoria.descricao|default:"Sem descrição" }}</td>
                             <td>{{ categoria.criado_em|date:"d/m/Y H:i" }}</td>
+                            <td>
+                                <a
+                                    href="{% url 'editar_categoria' categoria.id %}"
+                                    class="botao"
+                                >
+                                    Editar
+                                </a>
+                            </td>
                         </tr>
                     {% endfor %}
                 </tbody>
