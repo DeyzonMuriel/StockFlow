@@ -43,6 +43,7 @@
                         <th>Quantidade</th>
                         <th>Categoria</th>
                         <th>Fornecedor</th>
+                        <th>Ações</th>
                     </tr>
                 </thead>
 
@@ -55,6 +56,11 @@
                             <td>{{ produto.quantidade_estoque }}</td>
                             <td>{{ produto.categoria }}</td>
                             <td>{{ produto.fornecedor }}</td>
+                            <td>
+                            <a href="{% url 'editar_produto' produto.pk %}" class="botao">
+                                Editar
+                            </a>
+                        </td>
                         </tr>
                     {% endfor %}
                 </tbody>

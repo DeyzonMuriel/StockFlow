@@ -26,4 +26,8 @@ urlpatterns = [
         views.editar_categoria,
         name="editar_categoria",
     )
+    "produtos/<int:produto_id>/editar/",
+    views.editar_produto,
+    name="editar_produto",
+    ),
 ]

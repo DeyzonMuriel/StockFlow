@@ -1,6 +1,7 @@
-from django.shortcuts import get_object_or_404, render, redirect 
+from django.shortcuts import render, redirect, get_object_or_404
 from django.db import IntegrityError, transaction
 from .models import Produto, Categoria, Fornecedor
+from .forms_produtos import ProdutoForm
 
 def inicio(request):
     return render(request, "estoque/inicio.html")
@@ -183,5 +184,37 @@ def editar_categoria(request, categoria_id):
         {
             "categoria": categoria,
             "erro": erro,
+def editar_produto(request, produto_id):
+
+    produto = get_object_or_404(Produto, pk=produto_id)
+
+    if request.method == "POST":
+
+        form = ProdutoForm(request.POST, instance=produto)
+
+        if form.is_valid():
+
+            try:
+                with transaction.atomic():
+                    form.save()
+
+            except IntegrityError:
+                form.add_error(
+                    "sku",
+                    "Este SKU já está sendo utilizado por outro produto."
+                )
+
+            else:
+                return redirect("listar_produtos")
+
+    else:
+        form = ProdutoForm(instance=produto)
+
+    return render(
+        request,
+        "estoque/editar_produto.html",
+        {
+            "form": form,
+            "produto": produto,
         }
     )
