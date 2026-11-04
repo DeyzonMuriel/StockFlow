@@ -1,82 +1,89 @@
-# StockFlow — Descrição do Sistema
+# DESCRIÇÃO DO SISTEMA — STOCKFLOW
 
-## 1. Identificação do projeto
+## 1. Apresentação do sistema
 
-**Nome:** StockFlow  
-**Tipo:** Sistema Web de Controle de Estoque  
-**Área:** Desenvolvimento de Sistemas Web  
-**Tecnologia principal do backend:** Python e Django  
-**Banco de dados inicial:** SQLite
+O StockFlow é um sistema web de gerenciamento de estoque desenvolvido com o objetivo de facilitar a organização, o controle e a consulta de informações relacionadas aos produtos, categorias e fornecedores de uma organização.
 
-## 2. Contextualização
+A aplicação permite centralizar os dados do estoque em um único ambiente, proporcionando ao funcionário responsável uma maneira mais prática e organizada de administrar os registros. Por meio de uma interface intuitiva, o usuário pode realizar operações de cadastro, consulta, edição e exclusão de informações, contribuindo para a organização e o gerenciamento dos produtos armazenados.
 
-O controle de estoque é uma atividade importante para organizações que precisam acompanhar seus produtos, suas quantidades disponíveis e as informações dos fornecedores. Quando esses dados são administrados de forma desorganizada, podem ocorrer dificuldades na localização de produtos, inconsistências nos registros e falta de visibilidade sobre os itens disponíveis.
+O sistema foi desenvolvido utilizando Python e o framework Django no processamento das informações, HTML, CSS e JavaScript na construção da interface e SQLite como sistema de gerenciamento de banco de dados.
 
-O StockFlow é um sistema web acadêmico desenvolvido para organizar essas informações em uma aplicação centralizada, permitindo o gerenciamento de produtos, categorias e fornecedores.
+## 2. Objetivo do sistema
 
-## 3. Problema
+O principal objetivo do StockFlow é oferecer uma ferramenta que auxilie no gerenciamento das informações relacionadas ao estoque, facilitando o controle dos produtos, a organização por categorias e o gerenciamento dos fornecedores.
 
-A ausência de um sistema centralizado pode dificultar o cadastro, a consulta e a atualização dos dados de estoque, tornando o acompanhamento das informações mais trabalhoso e sujeito a erros.
+Além disso, busca proporcionar maior praticidade no acesso às informações, reduzir dificuldades relacionadas ao gerenciamento manual dos registros e manter os dados organizados e centralizados.
 
-O StockFlow busca reduzir essas dificuldades por meio de uma aplicação web com dados persistentes e operações organizadas.
+## 3. Público-alvo
 
-## 4. Objetivo geral
+O sistema é destinado principalmente a funcionários responsáveis pelo gerenciamento e controle de estoque de uma organização.
 
-Desenvolver um sistema web de controle de estoque que permita cadastrar, consultar, atualizar e excluir produtos, categorias e fornecedores, mantendo seus relacionamentos e a integridade dos dados.
+Esses usuários poderão utilizar a aplicação para administrar os produtos cadastrados, organizar suas categorias e manter as informações dos fornecedores atualizadas.
 
-## 5. Objetivos específicos
+## 4. Principais funcionalidades
 
-- Organizar os produtos cadastrados.
-- Agrupar produtos por categorias.
-- Manter os dados dos fornecedores.
-- Relacionar produtos às respectivas categorias e aos fornecedores.
-- Validar os dados inseridos pelos usuários.
-- Identificar produtos cuja quantidade esteja abaixo do estoque mínimo.
-- Aplicar conceitos de desenvolvimento web, modelagem de dados, versionamento e gerenciamento ágil.
+O StockFlow é composto por três módulos principais:
 
-## 6. Público-alvo
+### 4.1. Gerenciamento de produtos
 
-O sistema é destinado, inicialmente, a pequenos estabelecimentos ou responsáveis pelo controle de estoque que necessitem organizar informações básicas de produtos, categorias e fornecedores.
+O módulo de produtos permite administrar os registros dos itens disponíveis no estoque.
 
-Esse público representa o contexto de uso proposto para o projeto, não um resultado de pesquisa de mercado.
+Cada produto possui informações como nome, SKU (código identificador), descrição, preço, quantidade disponível, estoque mínimo, categoria e fornecedor associado.
 
-## 7. Escopo funcional
+O usuário poderá cadastrar novos produtos, consultar os registros existentes, editar informações e excluir produtos quando necessário.
 
-A primeira versão do StockFlow contemplará:
+### 4.2. Gerenciamento de categorias
 
-- Cadastro, listagem, consulta, edição e exclusão de produtos.
-- Cadastro, listagem, edição e exclusão de categorias.
-- Cadastro, listagem, edição e exclusão de fornecedores.
-- Associação de produtos às suas categorias e aos seus fornecedores.
-- Registro de preço, quantidade disponível e estoque mínimo.
-- Identificação de produtos com estoque baixo.
-- Interface web com navegação entre as principais páginas.
+O módulo de categorias permite organizar os produtos de acordo com suas classificações.
 
-## 8. Limites da primeira versão
+O sistema possibilita cadastrar novas categorias, consultar as categorias existentes, modificar suas informações e realizar exclusões, respeitando os relacionamentos com os produtos cadastrados.
 
-Não fazem parte do escopo obrigatório inicial:
+Cada categoria possui nome e descrição, facilitando a organização e identificação dos itens.
 
-- Emissão de notas fiscais.
-- Integração com sistemas externos.
-- Controle de múltiplos depósitos.
-- Compras automatizadas.
-- Relatórios gerenciais avançados.
-- Integração com plataformas de pagamento.
+### 4.3. Gerenciamento de fornecedores
 
-O histórico de movimentações de estoque, a autenticação de usuários e os relatórios adicionais poderão ser incorporados posteriormente, conforme o tempo disponível e a estabilidade das funcionalidades essenciais.
+O módulo de fornecedores permite armazenar e administrar informações dos fornecedores relacionados aos produtos cadastrados no sistema.
 
-## 9. Tecnologias e ferramentas
+São registradas informações como nome, CNPJ, e-mail, telefone e endereço.
 
-- Python: linguagem de programação do backend.
-- Django: framework web.
-- SQLite: banco de dados para desenvolvimento inicial.
-- HTML, CSS e JavaScript: tecnologias de interface.
-- Figma: prototipação das telas.
-- Git e GitHub: controle de versão e colaboração.
-- GitHub Projects: organização das tarefas por meio de um quadro Kanban.
+O usuário poderá cadastrar, consultar, editar e excluir fornecedores, respeitando as regras de integridade dos dados e os vínculos existentes com os produtos.
 
-## 10. Resultado esperado
+## 5. Funcionamento geral
 
-Ao final do desenvolvimento, espera-se obter uma aplicação web funcional, com dados persistentes, operações de gerenciamento de estoque, interface organizada e documentação suficiente para instalação, execução e compreensão do projeto.
+O StockFlow apresenta uma página inicial que permite ao usuário acessar as principais áreas do sistema por meio de um menu de navegação.
 
-O desenvolvimento será incremental, começando pela modelagem e pelas funcionalidades essenciais e avançando para integração, testes e melhorias de usabilidade.
+A partir dessa interface, o funcionário pode acessar as páginas de produtos, categorias e fornecedores, visualizar os registros existentes e realizar as operações disponibilizadas em cada módulo.
+
+Os dados informados nos formulários são processados pelo Django e armazenados no banco de dados SQLite. Dessa forma, as informações permanecem disponíveis para consultas e alterações posteriores.
+
+O sistema também possui um painel administrativo disponibilizado pelo Django, que permite o gerenciamento dos registros por meio de uma interface administrativa.
+
+## 6. Tecnologias utilizadas
+
+Para o desenvolvimento do StockFlow, foram utilizadas as seguintes tecnologias:
+
+- **Python:** linguagem de programação utilizada no desenvolvimento da aplicação.
+- **Django:** framework responsável pelo processamento das requisições, gerenciamento das funcionalidades e comunicação com o banco de dados.
+- **HTML:** utilizado para estruturar as páginas e os formulários da aplicação.
+- **CSS:** responsável pela apresentação visual e organização dos elementos da interface.
+- **JavaScript:** utilizado para implementar interações na interface, como confirmações de ações.
+- **SQLite:** banco de dados utilizado para armazenar as informações dos produtos, categorias e fornecedores.
+- **Git e GitHub:** ferramentas utilizadas para versionamento, armazenamento do código-fonte e colaboração entre os integrantes da equipe.
+
+## 7. Limites e escopo do sistema
+
+O StockFlow tem como foco o gerenciamento cadastral e a organização das informações relacionadas a produtos, categorias e fornecedores.
+
+Sua finalidade principal é facilitar a administração desses registros e o acompanhamento das quantidades disponíveis em estoque.
+
+Nesta versão, o sistema não contempla funcionalidades como controle de vendas, emissão de notas fiscais, gerenciamento financeiro, processamento de pagamentos ou integração automática com sistemas externos.
+
+Essas funcionalidades não fazem parte do escopo definido para a versão atual do projeto.
+
+## 8. Considerações finais
+
+O desenvolvimento do StockFlow busca oferecer uma solução simples e organizada para o gerenciamento de informações de estoque, reunindo em uma única aplicação os principais registros relacionados a produtos, categorias e fornecedores.
+
+Por meio de sua interface web e de suas funcionalidades de cadastro, consulta, edição e exclusão, o sistema proporciona maior organização das informações e facilita as atividades de administração do estoque.
+
+Dessa maneira, o StockFlow representa uma aplicação voltada à organização e ao gerenciamento de dados, utilizando tecnologias web e ferramentas de desenvolvimento que permitem sua manutenção e evolução em versões futuras.
